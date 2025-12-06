@@ -35,7 +35,8 @@ class TimerViewModel : ViewModel() {
             }
 
             is TimerEvent.ChangeDuration -> {
-                // Not implemented in this version
+                // TODO: Implement ChangeDuration event handling
+                println("Warning: ChangeDuration event received but not implemented yet.")
             }
         }
     }
