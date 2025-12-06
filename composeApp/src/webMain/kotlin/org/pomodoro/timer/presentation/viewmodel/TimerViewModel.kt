@@ -66,8 +66,10 @@ class TimerViewModel : ViewModel() {
 
                 val newTime = currentRemaining.minus(1.seconds)
 
+                val progress = newTime.inWholeMilliseconds.toFloat() / 25.minutes.inWholeMilliseconds.toFloat()
+
                 _state.update {
-                    it.copy(timeRemaining = newTime, timeFormatted = newTime.formatTime())
+                    it.copy(timeRemaining = newTime, timeFormatted = newTime.formatTime(), progress = progress)
                 }
             }
         }
@@ -81,6 +83,7 @@ class TimerViewModel : ViewModel() {
             it.copy(
                 timeRemaining = 25.minutes,
                 timeFormatted = 25.minutes.formatTime(),
+                progress = 1f,
                 timerMode = TimerMode.NotStarted,
             )
         }
