@@ -5,8 +5,8 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 data class TimerState(
-    val timeRemaining: Duration = 25.minutes,
-    val timeFormatted: String = timeRemaining.formatTime(),
+    val timeRemaining: Duration = STANDARD_TIME,
+    val timeFormatted: String = STANDARD_TIME.formatTime(),
     val progress: Float = 1f,
     val timerMode: TimerMode = TimerMode.NotStarted
 )
@@ -16,3 +16,5 @@ sealed class TimerMode {
     data object Running : TimerMode()
     data object Paused : TimerMode()
 }
+
+val STANDARD_TIME = 25.minutes

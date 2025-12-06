@@ -11,16 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.pomodoro.timer.presentation.state.TimerMode
 import org.pomodoro.timer.presentation.state.TimerState
+import org.pomodoro.timer.presentation.viewmodel.TimerEvent
 
 @Composable
 fun TimerControls(
     state: TimerState,
-    onStart: () -> Unit,
-    onReset: () -> Unit,
+    onEvent: (TimerEvent) -> Unit,
 ) {
     Row {
         Button(
-            onClick = onStart,
+            onClick = { onEvent(TimerEvent.ToggleTime) },
             colors = ButtonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -32,7 +32,7 @@ fun TimerControls(
         ) { GetButtonContent(state.timerMode) }
         Spacer(Modifier.width(16.dp))
         OutlinedButton(
-            onClick = onReset,
+            onClick = { onEvent(TimerEvent.ResetTimer) },
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             modifier = Modifier.height(36.dp)
         ) {
@@ -51,14 +51,12 @@ private fun GetButtonContent(timerMode: TimerMode) {
     Icon(
         imageVector = icon,
         contentDescription = text,
-        modifier = Modifier.size(18.dp) // Kleineres Icon
+        modifier = Modifier.size(18.dp)
     )
-    Spacer(Modifier.width(8.dp)) // Abstand zwischen Icon und Text
+    Spacer(Modifier.width(8.dp))
 
     Text(
         text = text,
-        // TIPP 3: Nutze einen Standard-Style statt AutoSize
-        // 'labelLarge' ist perfekt für Buttons (ca. 14sp, Fett)
         style = MaterialTheme.typography.labelLarge
     )
 }

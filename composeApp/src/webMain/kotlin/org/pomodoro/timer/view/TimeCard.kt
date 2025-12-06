@@ -38,19 +38,18 @@ fun TimeCard(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .safeContentPadding()
         ) {
             Box(
                 modifier = Modifier
-                    .weight(1f)
                     .fillMaxWidth()
                     .padding(vertical = 48.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = state.timeFormatted,
-                    style = MaterialTheme.typography.displayLarge,
+                    style = MaterialTheme.typography.displayLarge.copy(fontFeatureSettings = "tnum"),
                     fontWeight = FontWeight.Bold,
                     autoSize = TextAutoSize.StepBased(
                         minFontSize = TextUnit(64f, TextUnitType.Sp),
