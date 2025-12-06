@@ -8,12 +8,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.pomodoro.timer.presentation.state.TimerState
+import org.pomodoro.timer.presentation.viewmodel.TimerEvent
 
 @Composable
 fun TimerScreen(
     state: TimerState,
-    onStart: () -> Unit,
-    onReset: () -> Unit,
+    onEvent: (TimerEvent) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -27,8 +27,7 @@ fun TimerScreen(
         Spacer(Modifier.height(20.dp))
         TimerControls(
             state = state,
-            onStart = onStart,
-            onReset = onReset
+            onEvent = onEvent
         )
     }
 }

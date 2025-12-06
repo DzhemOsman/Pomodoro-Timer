@@ -8,19 +8,40 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.pomodoro.timer.util.AudioPlayer
-import org.pomodoro.timer.util.WakeLockManager
+import org.pomodoro.timer.presentation.state.STANDARD_TIME
 import org.pomodoro.timer.presentation.state.TimerMode
 import org.pomodoro.timer.presentation.state.TimerState
+import org.pomodoro.timer.util.AudioPlayer
+import org.pomodoro.timer.util.WakeLockManager
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class TimerViewModel : ViewModel() {
     private val _state = MutableStateFlow(TimerState())
     val state = _state.asStateFlow()
 
-    fun toggleTime() {
+    fun onEvent(event: TimerEvent) {
+        when (event) {
+            TimerEvent.ToggleTime -> {
+                toggleTime()
+            }
+
+            TimerEvent.ResetTimer -> {
+                resetTimer()
+            }
+
+            TimerEvent.PauseTime -> {
+                pauseTime()
+            }
+
+            is TimerEvent.ChangeDuration -> {
+                // TODO: Implement ChangeDuration event handling
+                println("Warning: ChangeDuration event received but not implemented yet.")
+            }
+        }
+    }
+
+    private fun toggleTime() {
         if (_state.value.timerMode != TimerMode.Running) {
             _state.update {
                 it.copy(timerMode = TimerMode.Running)
@@ -32,7 +53,7 @@ class TimerViewModel : ViewModel() {
 
     }
 
-    fun pauseTime() {
+    private fun pauseTime() {
         WakeLockManager.release()
         AudioPlayer.pause()
         _state.update {
@@ -40,7 +61,7 @@ class TimerViewModel : ViewModel() {
         }
     }
 
-    fun resetTimer() {
+    private fun resetTimer() {
         if (_state.value.timerMode == TimerMode.Running) {
             stopTimer()
             toggleTime()
@@ -66,8 +87,10 @@ class TimerViewModel : ViewModel() {
 
                 val newTime = currentRemaining.minus(1.seconds)
 
+                val progress = newTime.inWholeMilliseconds.toFloat() / STANDARD_TIME.inWholeMilliseconds.toFloat()
+
                 _state.update {
-                    it.copy(timeRemaining = newTime, timeFormatted = newTime.formatTime())
+                    it.copy(timeRemaining = newTime, timeFormatted = newTime.formatTime(), progress = progress)
                 }
             }
         }
@@ -79,8 +102,9 @@ class TimerViewModel : ViewModel() {
         viewModelScope.coroutineContext.cancelChildren()
         _state.update {
             it.copy(
-                timeRemaining = 25.minutes,
-                timeFormatted = 25.minutes.formatTime(),
+                timeRemaining = STANDARD_TIME,
+                timeFormatted = STANDARD_TIME.formatTime(),
+                progress = 1f,
                 timerMode = TimerMode.NotStarted,
             )
         }
