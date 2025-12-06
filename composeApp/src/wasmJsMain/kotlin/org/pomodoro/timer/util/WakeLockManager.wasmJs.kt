@@ -1,4 +1,4 @@
-package org.pomodoro.timer
+package org.pomodoro.timer.util
 
 // Die Verknüpfung zu unserer wakelock.js
 private external fun requestWakeLockJS()

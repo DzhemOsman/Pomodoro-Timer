@@ -8,11 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.pomodoro.timer.AudioPlayer
-import org.pomodoro.timer.WakeLockManager
+import org.pomodoro.timer.util.AudioPlayer
+import org.pomodoro.timer.util.WakeLockManager
 import org.pomodoro.timer.presentation.state.TimerMode
 import org.pomodoro.timer.presentation.state.TimerState
-import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
