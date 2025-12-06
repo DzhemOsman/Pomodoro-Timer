@@ -17,7 +17,7 @@ fun App() {
 
         TimerContainer(
             state = state,
-            viewModel = viewModel,
+            onEvent = viewModel::onEvent,
         )
     }
 }

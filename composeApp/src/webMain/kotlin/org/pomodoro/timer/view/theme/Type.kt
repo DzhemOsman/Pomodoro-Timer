@@ -10,11 +10,6 @@ import pomodoro_timer.composeapp.generated.resources.*
 
 @Composable
 fun bodyFontFamily() = FontFamily(
-    Font(Res.font.varela_round_regular, FontWeight.Normal)
-)
-
-@Composable
-fun displayFontFamily() = FontFamily(
     Font(Res.font.quicksand_regular, FontWeight.Normal),
     Font(Res.font.quicksand_medium, FontWeight.Medium),
     Font(Res.font.quicksand_bold, FontWeight.Bold),
@@ -22,7 +17,11 @@ fun displayFontFamily() = FontFamily(
     Font(Res.font.quicksand_light, FontWeight.Light)
 )
 
-// Default Material 3 typography values
+@Composable
+fun displayFontFamily() = FontFamily(
+    Font(Res.font.varela_round_regular, FontWeight.Normal),
+)
+
 val baseline = Typography()
 
 val AppTypography: Typography
@@ -34,16 +33,16 @@ val AppTypography: Typography
 
         return Typography(
             displayLarge = baseline.displayLarge.copy(fontFamily = displayFont),
-            displayMedium = baseline.displayMedium.copy(fontFamily = displayFont),
-            displaySmall = baseline.displaySmall.copy(fontFamily = displayFont),
+            displayMedium = baseline.displayMedium.copy(fontFamily = bodyFont),
+            displaySmall = baseline.displaySmall.copy(fontFamily = bodyFont),
 
-            headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFont),
-            headlineMedium = baseline.headlineMedium.copy(fontFamily = displayFont),
-            headlineSmall = baseline.headlineSmall.copy(fontFamily = displayFont),
+            headlineLarge = baseline.headlineLarge.copy(fontFamily = bodyFont),
+            headlineMedium = baseline.headlineMedium.copy(fontFamily = bodyFont),
+            headlineSmall = baseline.headlineSmall.copy(fontFamily = bodyFont),
 
-            titleLarge = baseline.titleLarge.copy(fontFamily = displayFont),
-            titleMedium = baseline.titleMedium.copy(fontFamily = displayFont),
-            titleSmall = baseline.titleSmall.copy(fontFamily = displayFont),
+            titleLarge = baseline.titleLarge.copy(fontFamily = bodyFont),
+            titleMedium = baseline.titleMedium.copy(fontFamily = bodyFont),
+            titleSmall = baseline.titleSmall.copy(fontFamily = bodyFont),
 
             bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFont),
             bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFont),
