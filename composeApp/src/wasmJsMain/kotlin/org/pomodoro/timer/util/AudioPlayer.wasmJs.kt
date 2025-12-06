@@ -1,4 +1,4 @@
-package org.pomodoro.timer
+package org.pomodoro.timer.util
 
 // Die externen JS-Funktionen (müssen exakt so heißen wie in deiner youtube_interop.js)
 private external fun startMusicJS()
