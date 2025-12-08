@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pomodoro.timer.presentation.state.STANDARD_PAUSE
 import org.pomodoro.timer.presentation.state.STANDARD_TIME
 import org.pomodoro.timer.presentation.state.TimerMode
 import org.pomodoro.timer.presentation.state.TimerState
@@ -30,13 +31,34 @@ class TimerViewModel : ViewModel() {
                 resetTimer()
             }
 
-            TimerEvent.PauseTime -> {
-                pauseTime()
+            TimerEvent.ToggleMenu -> {
+                toggleMenu()
             }
 
-            is TimerEvent.ChangeDuration -> {
-                // TODO: Implement ChangeDuration event handling
-                println("Warning: ChangeDuration event received but not implemented yet.")
+            TimerEvent.StartEditTime -> {
+                startEditTime()
+            }
+
+            TimerEvent.StartEditPause -> {
+                startEditPause()
+            }
+
+            TimerEvent.DismissEdit -> {
+                _state.update {
+                    it.copy(
+                        inEditTime = false,
+                        inEditPause = false,
+                        showEditAlert = false,
+                    )
+                }
+            }
+
+            is TimerEvent.UpdateTime -> {
+                updateTime(event.minutes)
+            }
+
+            is TimerEvent.UpdatePause -> {
+                updatePause(event.minutes)
             }
         }
     }
@@ -104,10 +126,52 @@ class TimerViewModel : ViewModel() {
             it.copy(
                 timeRemaining = STANDARD_TIME,
                 timeFormatted = STANDARD_TIME.formatTime(),
+                pauseRemaining = STANDARD_PAUSE,
+                pauseFormatted = STANDARD_PAUSE.formatTime(),
                 progress = 1f,
                 timerMode = TimerMode.NotStarted,
             )
         }
+    }
+
+    private fun toggleMenu() {
+        _state.update {
+            it.copy(isMenuExpanded = !it.isMenuExpanded)
+        }
+    }
+
+    private fun startEditTime() {
+        _state.update {
+            it.copy(inEditTime = true, showEditAlert = true)
+        }
+    }
+
+    private fun startEditPause() {
+        _state.update {
+            it.copy(inEditPause = true, showEditAlert = true)
+        }
+    }
+
+    private fun updateTime(minutes: Duration) {
+        _state.update {
+            it.copy(
+                timeRemaining = minutes,
+                timeFormatted = minutes.formatTime(),
+                inEditTime = false,
+            )
+        }
+        resetTimer()
+    }
+
+    private fun updatePause(minutes: Duration) {
+        _state.update {
+            it.copy(
+                pauseRemaining = minutes,
+                pauseFormatted = minutes.formatTime(),
+                inEditPause = false,
+            )
+        }
+        resetTimer()
     }
 }
 
